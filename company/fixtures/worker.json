@@ -1,0 +1,18 @@
+[
+    {
+      "model": "company.worker",
+      "pk": 1,
+      "fields": {
+        "email": "jan.kowalski@example.com",
+        "username": "Jan Kowalski"
+      }
+    },
+    {
+      "model": "company.worker",
+      "pk": 2,
+      "fields": {
+        "email": "anna.nowak@example.com",
+        "username": "Anna Nowak"
+      }
+    }
+  ]

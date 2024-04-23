@@ -1,0 +1,16 @@
+[
+    {
+      "model": "company.projectcategory",
+      "pk": 1,
+      "fields": {
+        "name": "Zarządzanie dokumentacją"
+      }
+    },
+    {
+      "model": "company.projectcategory",
+      "pk": 2,
+      "fields": {
+        "name": "Planowanie projektów"
+      }
+    }
+  ]

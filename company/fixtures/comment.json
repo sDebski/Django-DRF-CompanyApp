@@ -1,0 +1,39 @@
+[
+    {
+      "model": "company.comment",
+      "pk": 1,
+      "fields": {
+        "content": "Spotkanie zostało umówione na 15 kwietnia o godz. 10:00",
+        "task": 1,
+        "created_at": "2024-03-20T12:00:00Z"
+      }
+    },
+    {
+      "model": "company.comment",
+      "pk": 2,
+      "fields": {
+        "content": "Zaczęliśmy już pracę nad prezentacją",
+        "task": 2,
+        "created_at": "2024-03-20T12:00:00Z"
+      }
+    },
+    {
+        "model": "company.comment",
+        "pk": 3,
+        "fields": {
+          "content": "Prezentacja w toku...",
+          "task": 2,
+          "created_at": "2024-03-20T13:00:00Z"
+        }
+      },
+      {
+        "model": "company.comment",
+        "pk": 4,
+        "fields": {
+          "content": "Prezentacja udana",
+          "task": 2,
+          "created_at": "2024-03-20T14:00:00Z"
+        }
+      }
+  ]
+  

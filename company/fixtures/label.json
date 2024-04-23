@@ -1,0 +1,30 @@
+[
+    {
+      "model": "company.label",
+      "pk": 1,
+      "fields": {
+        "name": "Opracowane"
+      }
+    },
+    {
+      "model": "company.label",
+      "pk": 2,
+      "fields": {
+        "name": "Do dalszej analizy"
+      }
+    },
+    {
+      "model": "company.label",
+      "pk": 3,
+      "fields": {
+        "name": "Grupowe"
+      }
+    },
+    {
+      "model": "company.label",
+      "pk": 4,
+      "fields": {
+        "name": "Pojedyncze"
+      }
+    }
+  ]
