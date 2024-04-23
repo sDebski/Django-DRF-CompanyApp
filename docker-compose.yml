@@ -2,10 +2,13 @@ services:
   django:
     build:
       context: .
-    ports: 
-      - 8000:8000
+      dockerfile: ./Dockerfile
+      target: image_django
+    expose: 
+      - "8000"
     volumes: 
       - .:/app
+      - static_volume:/app/static
     depends_on:
       psql_db:
         condition: service_healthy
@@ -27,5 +30,18 @@ services:
       timeout: 5s
       retries: 5
 
+  nginx:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: image_nginx
+    ports:
+      - "8123:80"
+    depends_on:
+      - django
+    volumes:
+      - static_volume:/app/static
+
 volumes:
   db-data:
+  static_volume:

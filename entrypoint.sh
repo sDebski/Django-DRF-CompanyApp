@@ -8,4 +8,4 @@ python3 manage.py collectstatic --no-input
 python3 manage.py populate_database 
 
 # run server
-python3 manage.py runserver 0.0.0.0:8000
+gunicorn company_app.wsgi:application --bind 0.0.0.0:8000 --reload

@@ -1,9 +1,6 @@
-FROM python:3.10-slim
+FROM python:3.10-slim as image_django
 
-# Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
-
-# Keeps Python from buffering stdout and stderr.
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
@@ -34,7 +31,10 @@ RUN pip3 install -r requirements.txt
 # USER appuser
 
 COPY . .
-
-EXPOSE 8000
-
 ENTRYPOINT ["sh", "./entrypoint.sh" ]
+
+
+FROM nginx:1.23-alpine as image_nginx
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d
