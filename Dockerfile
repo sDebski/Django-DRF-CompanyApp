@@ -37,4 +37,4 @@ ENTRYPOINT ["sh", "./entrypoint.sh" ]
 FROM nginx:1.23-alpine as image_nginx
 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d
+COPY ./nginx.conf /etc/nginx/conf.d

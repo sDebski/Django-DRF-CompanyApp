@@ -17,6 +17,7 @@ django-filter = "^24.2"
 knox = "^0.1.14"
 black = "^24.4.0"
 pillow = "^10.3.0"
+gunicorn = "^22.0.0"
 
 
 [build-system]
