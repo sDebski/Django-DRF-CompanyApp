@@ -6,6 +6,8 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),
     path("admin/", admin.site.urls),
+    path("company/", include(("company.urls", "company"), namespace="company")),
+    path("core/", include(("core.urls", "core"), namespace="core")),
 ]
 
 if settings.DEBUG:
