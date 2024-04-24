@@ -28,7 +28,9 @@ INSTALLED_APPS = [
     "django_extensions",
     # "rest_framework",
     # "corsheaders",
+    # "knox",
     "company",
+    "core",
 ]
 
 MIDDLEWARE = [
@@ -40,7 +42,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    
 ]
 
 ROOT_URLCONF = "company_app.urls"
@@ -97,6 +98,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "core.User"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
