@@ -28,12 +28,10 @@ INSTALLED_APPS = [
     # packages
     "knox",
     "rest_framework",
-    "rest_framework.authtoken", 
+    "rest_framework.authtoken",
     "drf_spectacular",
     "django_extensions",
-    
     # "corsheaders",
-    
     # apps
     "company",
     "core",
@@ -135,9 +133,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "company_app.auth.TokenAuthentication",
-    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("company_app.auth.TokenAuthentication",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 

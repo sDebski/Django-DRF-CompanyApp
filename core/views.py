@@ -3,6 +3,8 @@ from knox.views import LoginView as KnoxLoginView
 from rest_framework.permissions import AllowAny
 from core import serializers
 from drf_spectacular.utils import extend_schema
+from rest_framework.generics import RetrieveAPIView
+
 
 class LoginView(KnoxLoginView):
     permission_classes = [AllowAny]
@@ -15,4 +17,10 @@ class LoginView(KnoxLoginView):
         user.auth_token_set.all().delete()
         request.user = user
         return super().post(request, format=None)
-    
+
+
+class UserView(RetrieveAPIView):
+    serializer_class = serializers.UserSerializer
+
+    def get_object(self):
+        return self.request.user

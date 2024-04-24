@@ -17,5 +17,5 @@ if settings.DEBUG:
 
     urlpatterns += [
         path("api/schema/", SchemaView.as_view(), name="schema"),
-        path("swagger/", SwaggerView.as_view(url_name="schema"), name="swagger-ui")
+        path("swagger/", SwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     ]
