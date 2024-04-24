@@ -28,7 +28,7 @@ class UserView(RetrieveAPIView):
         return self.request.user
 
 
-class ChangePassword(UpdateAPIView):
+class ChangePasswordView(UpdateAPIView):
     serializer_class = serializers.ChangePasswordSerializer
 
     def get_object(self):
