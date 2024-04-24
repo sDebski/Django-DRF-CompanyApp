@@ -102,6 +102,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
+    {
+        "NAME": "core.validators.PasswordCharacterValidation",
+        "OPTIONS": {
+            "code": "invalid-password",
+        },
+    },
 ]
 
 AUTH_USER_MODEL = "core.User"

@@ -3,7 +3,7 @@ from knox.views import LoginView as KnoxLoginView
 from rest_framework.permissions import AllowAny
 from core import serializers
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, UpdateAPIView
 
 
 class LoginView(KnoxLoginView):
@@ -26,3 +26,14 @@ class UserView(RetrieveAPIView):
         print("request:", self.request)
         print("user:", self.request.user)
         return self.request.user
+
+
+class ChangePassword(UpdateAPIView):
+    serializer_class = serializers.ChangePasswordSerializer
+
+    def get_object(self):
+        return self.request.user
+
+    def partial_update(self, request, *args, **kwargs):
+        kwargs["partial"] = False
+        return self.update(request, *args, **kwargs)
