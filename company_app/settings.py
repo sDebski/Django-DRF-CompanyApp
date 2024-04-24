@@ -1,5 +1,7 @@
 from pathlib import Path
 import os
+from rest_framework.settings import api_settings
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,12 +21,15 @@ ALLOWED_HOSTS = []
 # CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
+    "company_app.apps.CompanyAppAdminConfig",  # replaced django.contrib.admin
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # apps
+    "company",
+    "core",
     # packages
     "knox",
     "rest_framework",
@@ -32,9 +37,6 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_extensions",
     # "corsheaders",
-    # apps
-    "company",
-    "core",
 ]
 
 MIDDLEWARE = [
@@ -135,6 +137,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("company_app.auth.TokenAuthentication",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+REST_KNOX = {
+    "SECURE_HASH_ALGORITHM": "cryptography.hazmat.primitives.hashes.SHA512",
+    "AUTH_TOKEN_CHARACTER_LENGTH": 64,
+    "TOKEN_TTL": timedelta(seconds=3600),
+    "USER_SERIALIZER": "core.serializers.UserSerializer",
+    "TOKEN_LIMIT_PER_USER": None,
+    "AUTO_REFRESH": True,
+    "EXPIRY_DATETIME_FORMAT": api_settings.DATETIME_FORMAT,
+    "MIN_REFRESH_INTERVAL": 1800,
 }
 
 # drf-spectacular settings

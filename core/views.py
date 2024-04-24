@@ -23,4 +23,6 @@ class UserView(RetrieveAPIView):
     serializer_class = serializers.UserSerializer
 
     def get_object(self):
+        print("request:", self.request)
+        print("user:", self.request.user)
         return self.request.user
