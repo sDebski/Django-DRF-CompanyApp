@@ -25,10 +25,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # packages
+    "knox",
+    "rest_framework",
+    "rest_framework.authtoken", 
+    "drf_spectacular",
     "django_extensions",
-    # "rest_framework",
+    
     # "corsheaders",
-    # "knox",
+    
+    # apps
     "company",
     "core",
 ]
@@ -126,3 +132,20 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "company_app.auth.TokenAuthentication",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+# drf-spectacular settings
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Company App API",
+    "DESCRIPTION": "API for interacting with Company App backend.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "AUTHENTICATION_WHITELIST": ["company_app.auth.TokenAuthentication"],
+}

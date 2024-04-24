@@ -10,3 +10,10 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    from company_app.views import SwaggerView, SchemaView
+
+    urlpatterns += [
+        path("api/schema/", SchemaView.as_view(), name="schema"),
+        path("swagger/", SwaggerView.as_view(url_name="schema"), name="swagger-ui")
+    ]
