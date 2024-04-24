@@ -1,9 +1,8 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
 
-from company import serializers
+from company import serializers, models
 
 
 class LabelViewset(ModelViewSet):
-    authentication_classes = [IsAuthenticated,]
+    queryset = models.Label.objects.all()
     serializer_class = serializers.LabelSerializer
