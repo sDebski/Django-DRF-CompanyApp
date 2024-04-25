@@ -4,6 +4,7 @@ from rest_framework.permissions import AllowAny
 from core import serializers
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView
+from django_rest_passwordreset.views import ResetPasswordConfirm as DjangoResetPasswordConfirm
 
 
 class LoginView(KnoxLoginView):
@@ -37,3 +38,7 @@ class ChangePasswordView(UpdateAPIView):
     def partial_update(self, request, *args, **kwargs):
         kwargs["partial"] = False
         return self.update(request, *args, **kwargs)
+
+
+class ResetPasswordConfirmView(DjangoResetPasswordConfirm):
+    serializer_class = serializers.PassAndConfirmTokenSerializer

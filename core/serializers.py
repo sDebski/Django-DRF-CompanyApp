@@ -3,6 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework.authtoken.serializers import (
     AuthTokenSerializer as DRFAuthTokenSerializer,
 )
+from django_rest_passwordreset.serializers import PasswordTokenSerializer
 from core import models, validators
 
 
@@ -92,3 +93,21 @@ class ChangePasswordSerializer(serializers.Serializer):
             "message": "Passoword changed successfully!",
             "user": UserSerializer(self.instance, read_only=True).data,
         }
+
+
+class PassAndConfirmTokenSerializer(PasswordTokenSerializer):
+    confirmation = serializers.CharField(label=_("Password confirmation"), style={"input_type": "password"})
+
+    def validate(self, data):
+        password = data.get("password")
+        confirmation = data.get("confirmation")
+
+        if not password or not confirmation:
+            message = "Fields 'Password' and 'Password Confirmation' are required"
+            raise serializers.ValidationError(detail=message, code="required")
+        if password != confirmation:
+            message = "'Password' and 'Password confirmation' do not match"
+            raise serializers.ValidationError(detail=message, code="invalid-confirmation")
+        return super().validate(data)
+    
+
