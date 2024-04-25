@@ -5,6 +5,7 @@ from rest_framework.authtoken.serializers import (
 )
 from django_rest_passwordreset.serializers import PasswordTokenSerializer
 from core import models, validators
+from django.utils.translation import gettext_lazy as _
 
 
 class AuthTokenSerializer(DRFAuthTokenSerializer):

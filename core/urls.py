@@ -8,6 +8,8 @@ from knox.views import LogoutView
 
 
 urlpatterns = [
+    path("health/", views.HealthCheck.as_view(), name="health"),
+    path("health_auth/", views.HealthCheckAuth.as_view(), name="health_auth"),
     path("login/", views.LoginView.as_view(), name="knox_login"),
     path("logout/", LogoutView.as_view(), name="knox_logout"),
     path("me/", views.UserView.as_view(), name="me"),

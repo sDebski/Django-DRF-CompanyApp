@@ -1,11 +1,29 @@
 from django.shortcuts import render
+from django.db import connection
 from knox.views import LoginView as KnoxLoginView
 from rest_framework.permissions import AllowAny
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from core import serializers
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView
 from django_rest_passwordreset.views import ResetPasswordConfirm as DjangoResetPasswordConfirm
 
+
+
+class HealthCheckAuth(APIView):
+    @staticmethod
+    def head(request, **kwargs):
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT 1")
+            return Response({}, status=200)
+        except Exception as error:
+            return Response({"error", error}, status=500)
+        
+
+class HealthCheck(HealthCheckAuth):
+    permission_classes = [AllowAny]
 
 class LoginView(KnoxLoginView):
     permission_classes = [AllowAny]
