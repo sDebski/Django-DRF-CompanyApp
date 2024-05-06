@@ -6,38 +6,48 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='SystemLog',
+            name="SystemLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('method', models.CharField(blank=True, max_length=256, null=True)),
-                ('path', models.CharField(blank=True, max_length=256, null=True)),
-                ('full_path', models.CharField(blank=True, max_length=256, null=True)),
-                ('status', models.CharField(blank=True, max_length=256, null=True)),
-                ('username', models.CharField(blank=True, max_length=256, null=True)),
-                ('ip_address', models.CharField(blank=True, max_length=256, null=True)),
-                ('query_params', models.JSONField(default=dict)),
-                ('request_body', models.JSONField(default=dict)),
-                ('response_body', models.JSONField(default=dict)),
-                ('request_headers', models.JSONField(default=dict)),
-                ('response_headers', models.JSONField(default=dict)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                ("method", models.CharField(blank=True, max_length=256, null=True)),
+                ("path", models.CharField(blank=True, max_length=256, null=True)),
+                ("full_path", models.CharField(blank=True, max_length=256, null=True)),
+                ("status", models.CharField(blank=True, max_length=256, null=True)),
+                ("username", models.CharField(blank=True, max_length=256, null=True)),
+                ("ip_address", models.CharField(blank=True, max_length=256, null=True)),
+                ("query_params", models.JSONField(default=dict)),
+                ("request_body", models.JSONField(default=dict)),
+                ("response_body", models.JSONField(default=dict)),
+                ("request_headers", models.JSONField(default=dict)),
+                ("response_headers", models.JSONField(default=dict)),
             ],
             options={
-                'verbose_name_plural': 'SystemLog',
-                'ordering': ['-timestamp'],
+                "verbose_name_plural": "SystemLog",
+                "ordering": ["-timestamp"],
             },
         ),
         migrations.AddIndex(
-            model_name='systemlog',
-            index=models.Index(fields=['username'], name='core_system_usernam_99774b_idx'),
+            model_name="systemlog",
+            index=models.Index(
+                fields=["username"], name="core_system_usernam_99774b_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='systemlog',
-            index=models.Index(fields=['path'], name='core_system_path_572b4f_idx'),
+            model_name="systemlog",
+            index=models.Index(fields=["path"], name="core_system_path_572b4f_idx"),
         ),
     ]

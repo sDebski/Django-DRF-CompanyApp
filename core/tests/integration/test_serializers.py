@@ -10,14 +10,16 @@ User = get_user_model()
 
 class AuthTokenSerializerTest(APITestCase):
     def setUp(self) -> None:
-        self.user = User.objects.create_user(username="test_ser", password="test_ser", email="test_ser@mail.com")
+        self.user = User.objects.create_user(
+            username="test_ser", password="test_ser", email="test_ser@mail.com"
+        )
         return super().setUp()
-    
+
     @patch("django.contrib.auth.authenticate")
     def _test_validate(self, mock_auth, data, failed):
         mock_auth.return_value = self.user
         self.user.refresh_from_db()
-        
+
         if failed:
             with self.assertRaises(ValidationError):
                 attrs = AuthTokenSerializer().validate(data)

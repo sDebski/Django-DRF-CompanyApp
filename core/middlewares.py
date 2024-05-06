@@ -30,7 +30,6 @@ class SystemLogsMiddleware:
             "response_headers": dict(response.headers),
         }
 
-
         try:
             SystemLog.objects.create(**kwargs)
         except Exception:
