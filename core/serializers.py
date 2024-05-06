@@ -97,7 +97,9 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 
 class PassAndConfirmTokenSerializer(PasswordTokenSerializer):
-    confirmation = serializers.CharField(label=_("Password confirmation"), style={"input_type": "password"})
+    confirmation = serializers.CharField(
+        label=_("Password confirmation"), style={"input_type": "password"}
+    )
 
     def validate(self, data):
         password = data.get("password")
@@ -108,7 +110,7 @@ class PassAndConfirmTokenSerializer(PasswordTokenSerializer):
             raise serializers.ValidationError(detail=message, code="required")
         if password != confirmation:
             message = "'Password' and 'Password confirmation' do not match"
-            raise serializers.ValidationError(detail=message, code="invalid-confirmation")
+            raise serializers.ValidationError(
+                detail=message, code="invalid-confirmation"
+            )
         return super().validate(data)
-    
-

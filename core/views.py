@@ -7,8 +7,9 @@ from rest_framework.response import Response
 from core import serializers
 from drf_spectacular.utils import extend_schema
 from rest_framework.generics import RetrieveAPIView, UpdateAPIView
-from django_rest_passwordreset.views import ResetPasswordConfirm as DjangoResetPasswordConfirm
-
+from django_rest_passwordreset.views import (
+    ResetPasswordConfirm as DjangoResetPasswordConfirm,
+)
 
 
 class HealthCheckAuth(APIView):
@@ -20,10 +21,11 @@ class HealthCheckAuth(APIView):
             return Response({}, status=200)
         except Exception as error:
             return Response({"error", error}, status=500)
-        
+
 
 class HealthCheck(HealthCheckAuth):
     permission_classes = [AllowAny]
+
 
 class LoginView(KnoxLoginView):
     permission_classes = [AllowAny]

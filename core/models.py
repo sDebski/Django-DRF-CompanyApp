@@ -65,3 +65,26 @@ class PasswordHistory(models.Model):
 
     def __str__(self) -> str:
         return self.password_hash
+
+
+class SystemLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    method = models.CharField(max_length=256, null=True, blank=True)
+    path = models.CharField(max_length=256, null=True, blank=True)
+    full_path = models.CharField(max_length=256, null=True, blank=True)
+    status = models.CharField(max_length=256, null=True, blank=True)
+    username = models.CharField(max_length=256, null=True, blank=True)
+    ip_address = models.CharField(max_length=256, null=True, blank=True)
+    query_params = models.JSONField(default=dict)
+    request_body = models.JSONField(default=dict)
+    response_body = models.JSONField(default=dict)
+    request_headers = models.JSONField(default=dict)
+    response_headers = models.JSONField(default=dict)
+
+    class Meta:
+        verbose_name_plural = "SystemLog"
+        ordering = ["-timestamp"]
+        indexes = [
+            models.Index(fields=["username"]),
+            models.Index(fields=["path"]),
+        ]

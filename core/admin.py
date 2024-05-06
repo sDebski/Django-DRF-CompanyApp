@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import gettext as _
 
-from core.models import PasswordHistory, User
+from core.models import PasswordHistory, User, SystemLog
 from .forms import UserChangeForm, UserCreationForm
 
 
@@ -93,3 +93,9 @@ class PasswordHistoryAdmin(admin.ModelAdmin):
     list_display = ("user", "last_used_date", "password_hash")
     ordering = ("last_used_date",)
     last_filter = ("user",)
+
+
+@admin.register(SystemLog)
+class SystemLogAdmin(admin.ModelAdmin):
+    search_fields = ("username",)
+    list_per_page = 20
