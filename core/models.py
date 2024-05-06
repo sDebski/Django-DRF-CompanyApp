@@ -37,8 +37,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    first_name = models.CharField(_("first_name"), max_length=128)
-    last_name = models.CharField(_("last_name"), max_length=128)
+    first_name = models.CharField(_("first_name"), max_length=128, blank=True)
+    last_name = models.CharField(_("last_name"), max_length=128, blank=True)
     email = models.EmailField(_("email_address"), unique=True)
 
     is_deleted = models.BooleanField(default=False)

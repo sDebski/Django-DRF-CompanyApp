@@ -21,6 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "first_name",
             "last_name",
+            "email",
             "date_joined",
             "last_login",
         ]
@@ -29,8 +30,8 @@ class UserSerializer(serializers.ModelSerializer):
             "username": {
                 "read_only": True,
             },
-            "first_name": {"read_only": True},
-            "last_name": {"read_only": True},
+            "first_name": {"required": False},
+            "last_name": {"required": False},
             "email": {"required": False, "allow_blank": True},
             "date_joined": {
                 "read_only": True,

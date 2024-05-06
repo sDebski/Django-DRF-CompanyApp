@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from core import serializers
 from drf_spectacular.utils import extend_schema
-from rest_framework.generics import RetrieveAPIView, UpdateAPIView
+from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView
 from django_rest_passwordreset.views import (
     ResetPasswordConfirm as DjangoResetPasswordConfirm,
 )
@@ -40,12 +40,10 @@ class LoginView(KnoxLoginView):
         return super().post(request, format=None)
 
 
-class UserView(RetrieveAPIView):
+class UserView(RetrieveUpdateAPIView):
     serializer_class = serializers.UserSerializer
 
     def get_object(self):
-        print("request:", self.request)
-        print("user:", self.request.user)
         return self.request.user
 
 
