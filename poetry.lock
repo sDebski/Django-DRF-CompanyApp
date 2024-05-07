@@ -405,6 +405,20 @@ files = [
 Django = ">=3.2"
 
 [[package]]
+name = "django-filter"
+version = "22.1"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "django-filter-22.1.tar.gz", hash = "sha256:ed473b76e84f7e83b2511bb2050c3efb36d135207d0128dfe3ae4b36e3594ba5"},
+    {file = "django_filter-22.1-py3-none-any.whl", hash = "sha256:ed429e34760127e3520a67f415bec4c905d4649fbe45d0d6da37e6ff5e0287eb"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+
+[[package]]
 name = "django-rest-knox"
 version = "4.2.0"
 description = "Authentication for django rest framework"
@@ -1161,6 +1175,17 @@ files = [
 ]
 
 [[package]]
+name = "unittest-parametrize"
+version = "1.4.0"
+description = "Parametrize tests within unittest TestCases."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "unittest_parametrize-1.4.0-py3-none-any.whl", hash = "sha256:8b9554fbcfd36bfef6c5c522b9146f13647eb4ec589c17af7f67f22793cecb82"},
+    {file = "unittest_parametrize-1.4.0.tar.gz", hash = "sha256:f9dcaed821ad19724964a49e7f595311b9a2c5253c61cdb1fb2c01b899af67a2"},
+]
+
+[[package]]
 name = "uritemplate"
 version = "4.1.1"
 description = "Implementation of RFC 6570 URI Templates"
@@ -1196,4 +1221,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "9a9b660db75e800832fe182ddad87e5f980a00b9a8c74292691ff62611f92732"
+content-hash = "f01517edaf9a93f30eb9a40ac14f296f91d58b511de8a6da8896e7d2d3a28446"

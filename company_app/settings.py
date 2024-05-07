@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_extensions",
     "django_rest_passwordreset",
+    "django_filters",
     # "corsheaders",
 ]
 
@@ -149,6 +150,10 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticated",
     ],
     "EXCEPTION_HANDLER": "company_app.exception_handler.exception_handler",
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.OrderingFilter",
+    ],
 }
 
 REST_KNOX = {
