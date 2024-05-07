@@ -1,9 +1,18 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework import mixins, viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from company import serializers, models, filtersets
 
 
-class LabelViewset(ModelViewSet):
+class LabelViewset(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = models.Label.objects.all()
-    serializer_class = serializers.LabelSerializer
     filterset_class = filtersets.LabelFilterSet
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return serializers.LabelReadSerializer
+        return serializers.LabelWriteSerializer
