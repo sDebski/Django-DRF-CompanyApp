@@ -12,15 +12,12 @@ def get_error_codes(detail):
     if isinstance(detail, list):
         for val in detail:
             codes.extend(get_error_codes(val))
-    
+
     return codes
 
 
 def exception_handler(exc, context):
     if isinstance(exc, APIException):
         detail = exc.get_full_details()
-        exc.detail = {
-            "errors": detail,
-            "codes": get_error_codes(detail)
-        }
+        exc.detail = {"errors": detail, "codes": get_error_codes(detail)}
     return drf_handler(exc, context)

@@ -148,8 +148,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
-    # "EXCEPTION_HANDLER": "company_app.exception_handler.exception_handler",
-    
+    "EXCEPTION_HANDLER": "company_app.exception_handler.exception_handler",
 }
 
 REST_KNOX = {
@@ -171,3 +170,7 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
     "AUTHENTICATION_WHITELIST": ["company_app.auth.TokenAuthentication"],
 }
+
+# Password reset options
+DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 1 / 3
+DJANGO_REST_PASSWORDRESET_NO_INFORMATION_LEAKAGE = True

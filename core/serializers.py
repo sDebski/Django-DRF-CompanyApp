@@ -55,7 +55,7 @@ class ChangePasswordSerializer(serializers.Serializer):
             ),
             "invalid_confirmation": (
                 "Confirmation and new password do not match",
-                "nvalid-confirmation",
+                "invalid-confirmation",
             ),
         }
 

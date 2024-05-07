@@ -4,6 +4,7 @@ from core.models import User
 
 from knox.serializers import UserSerializer
 
+
 class MeTest(APITestCase):
     @classmethod
     def setUpTestData(cls) -> None:
