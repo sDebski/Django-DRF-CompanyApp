@@ -179,3 +179,19 @@ SPECTACULAR_SETTINGS = {
 # Password reset options
 DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 1 / 3
 DJANGO_REST_PASSWORDRESET_NO_INFORMATION_LEAKAGE = True
+
+
+# Caching settings
+REDIS_HOST = os.environ.get("REDIS_HOST", "redis")
+REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
+CACHE_TIMEOUT_MIN = os.environ.get("CACHE_TIMEOUT_MIN", 5)
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}

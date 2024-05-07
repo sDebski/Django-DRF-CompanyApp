@@ -47,6 +47,15 @@ services:
     volumes:
       - static_volume:/app/static
 
+  redis:
+    image: redis
+    expose:
+      - 6379
+    logging:
+      options:
+        max-size: "1g"
+    restart: unless-stopped
+
 volumes:
   db-data:
   static_volume:
