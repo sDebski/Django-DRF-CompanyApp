@@ -31,7 +31,9 @@ class ProjectCategoryViewSetTestCase(APITestCase, ParametrizedTestCase):
         response = self.client.post(url, data=payload)
 
         if status_ == status.HTTP_201_CREATED:
-            projectcategory = models.ProjectCategory.objects.filter(name=payload["name"]).first()
+            projectcategory = models.ProjectCategory.objects.filter(
+                name=payload["name"]
+            ).first()
             self.assertEqual(projectcategory.name, str(payload["name"]))
         else:
             self.assertEqual(response.status_code, status_)
@@ -41,10 +43,14 @@ class ProjectCategoryViewSetTestCase(APITestCase, ParametrizedTestCase):
         response = self.client.get(url)
         projectcategories = models.ProjectCategory.objects.all()
         self.assertEqual(len(response.data), projectcategories.count())
-        serializer = serializers.ProjectCategoryReadSerializer(projectcategories, many=True)
+        serializer = serializers.ProjectCategoryReadSerializer(
+            projectcategories, many=True
+        )
         projectcategories_data = serializer.data
 
-        for response_projectcategory, db_projectcategory in zip(projectcategories_data, response.data):
+        for response_projectcategory, db_projectcategory in zip(
+            projectcategories_data, response.data
+        ):
             with self.subTest(msg="test each projectcategory"):
                 self.assertDictEqual(response_projectcategory, db_projectcategory)
 
@@ -60,11 +66,15 @@ class ProjectCategoryViewSetTestCase(APITestCase, ParametrizedTestCase):
     )
     def test_projectcategory_update(self, payload, status_):
         projectcategory_pk = 1
-        url = reverse("company:projectcategories-detail", kwargs={"pk": projectcategory_pk})
+        url = reverse(
+            "company:projectcategories-detail", kwargs={"pk": projectcategory_pk}
+        )
         response = self.client.put(url, data=payload)
 
         if status_ == status.HTTP_200_OK:
-            projectcategory = models.ProjectCategory.objects.filter(name=payload["name"]).first()
+            projectcategory = models.ProjectCategory.objects.filter(
+                name=payload["name"]
+            ).first()
             self.assertEqual(projectcategory.name, str(payload["name"]))
             self.assertEqual(projectcategory.pk, projectcategory_pk)
         else:

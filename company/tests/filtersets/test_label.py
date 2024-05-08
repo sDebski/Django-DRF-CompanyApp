@@ -15,7 +15,6 @@ class LabelFilterSetTestCase(APITestCase, ParametrizedTestCase):
         self.user = User.objects.get(pk=1)
         self.client.force_authenticate(user=self.user)
         return super().setUp()
-    
 
     @parametrize(
         "filter_,status_,amount",

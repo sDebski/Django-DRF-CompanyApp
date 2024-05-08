@@ -31,3 +31,20 @@ class ProjectCategoryViewSet(
         if self.action == "list":
             return serializers.ProjectCategoryReadSerializer
         return serializers.ProjectCategoryWriteSerializer
+
+
+class ProjectViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    queryset = (
+        models.Project.objects.select_related("category").all().order_by("-created_at")
+    )
+    filterset_class = filtersets.ProjectFilterSet
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return serializers.ProjectReadSerializer
+        return serializers.ProjectWriteSerializer
