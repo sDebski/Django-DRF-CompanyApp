@@ -4,28 +4,28 @@ from company import serializers, models
 from unittest_parametrize import ParametrizedTestCase, parametrize
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+
 User = get_user_model()
 
 
 class LabelViewSetTestCase(APITestCase, ParametrizedTestCase):
-    fixtures = [
-        "user.json",
-        "label.json"
-    ]
+    fixtures = ["user.json", "label.json"]
 
     def setUp(self) -> None:
         self.user = User.objects.get(pk=1)
         self.client.force_authenticate(user=self.user)
         return super().setUp()
 
-
-    @parametrize("payload,status_",[
-        ({"name": "Label_1"}, status.HTTP_201_CREATED),
-        ({"name": "Label 1"}, status.HTTP_201_CREATED),
-        ({"name": 1234}, status.HTTP_201_CREATED),
-        ({"name": ""}, status.HTTP_400_BAD_REQUEST),
-        ({}, status.HTTP_400_BAD_REQUEST),
-    ])
+    @parametrize(
+        "payload,status_",
+        [
+            ({"name": "Label_1"}, status.HTTP_201_CREATED),
+            ({"name": "Label 1"}, status.HTTP_201_CREATED),
+            ({"name": 1234}, status.HTTP_201_CREATED),
+            ({"name": ""}, status.HTTP_400_BAD_REQUEST),
+            ({}, status.HTTP_400_BAD_REQUEST),
+        ],
+    )
     def test_label_create(self, payload, status_):
         url = reverse("company:labels-list")
         response = self.client.post(url, data=payload)
@@ -48,13 +48,16 @@ class LabelViewSetTestCase(APITestCase, ParametrizedTestCase):
             with self.subTest(msg="test each label"):
                 self.assertDictEqual(response_label, db_label)
 
-    @parametrize("payload,status_",[
-        ({"name": "Label_1"}, status.HTTP_200_OK),
-        ({"name": "Label 1"}, status.HTTP_200_OK),
-        ({"name": 1234}, status.HTTP_200_OK),
-        ({"name": ""}, status.HTTP_400_BAD_REQUEST),
-        ({}, status.HTTP_400_BAD_REQUEST),
-    ])
+    @parametrize(
+        "payload,status_",
+        [
+            ({"name": "Label_1"}, status.HTTP_200_OK),
+            ({"name": "Label 1"}, status.HTTP_200_OK),
+            ({"name": 1234}, status.HTTP_200_OK),
+            ({"name": ""}, status.HTTP_400_BAD_REQUEST),
+            ({}, status.HTTP_400_BAD_REQUEST),
+        ],
+    )
     def test_label_update(self, payload, status_):
         label_pk = 1
         url = reverse("company:labels-detail", kwargs={"pk": label_pk})

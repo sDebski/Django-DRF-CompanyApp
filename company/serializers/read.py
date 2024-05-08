@@ -7,3 +7,10 @@ class LabelReadSerializer(serializers.ModelSerializer):
         model = models.Label
         fields = ("name",)
         extra_kwargs = {"name": {"read_only": True}}
+
+
+class ProjectCategoryReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Label
+        fields = ("name",)
+        extra_kwargs = {"name": {"read_only": True}}

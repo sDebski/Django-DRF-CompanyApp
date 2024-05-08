@@ -3,7 +3,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from company import serializers, models, filtersets
 
 
-class LabelViewset(
+class LabelViewSet(
     mixins.ListModelMixin,
     mixins.CreateModelMixin,
     mixins.UpdateModelMixin,
@@ -16,3 +16,18 @@ class LabelViewset(
         if self.action == "list":
             return serializers.LabelReadSerializer
         return serializers.LabelWriteSerializer
+
+
+class ProjectCategoryViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
+):
+    queryset = models.ProjectCategory.objects.all()
+    filterset_class = filtersets.ProjectCategoryFilterSet
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return serializers.ProjectCategoryReadSerializer
+        return serializers.ProjectCategoryWriteSerializer

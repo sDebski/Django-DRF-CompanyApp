@@ -8,3 +8,11 @@ class LabelFilterSet(FilterSet):
     class Meta:
         model = models.Label
         fields = ["name"]
+
+
+class ProjectCategoryFilterSet(FilterSet):
+    name = filters.CharFilter(lookup_expr="icontains")
+
+    class Meta:
+        model = models.ProjectCategory
+        fields = ["name"]

@@ -6,7 +6,8 @@ from company import viewsets, views
 
 router = SimpleRouter()
 
-router.register("labels", viewsets.LabelViewset, basename="labels")
+router.register("labels", viewsets.LabelViewSet, basename="labels")
+router.register("projectcategories", viewsets.ProjectCategoryViewSet, basename="projectcategories")
 
 urlpatterns = []
 urlpatterns += router.urls
