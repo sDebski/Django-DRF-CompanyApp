@@ -12,8 +12,6 @@ class LabelSerializerTestCase(TestCase):
         label = models.Label.objects.get(pk=1)
 
         data = serializers.LabelReadSerializer(label).data
-        import pdb
-        pdb.set_trace()
         self.assertEqual(data["name"], label.name)
 
     def test_write_serializer_create(self):

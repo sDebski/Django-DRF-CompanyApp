@@ -1,0 +1,24 @@
+[
+    {
+      "model": "core.user",
+      "pk": 1,
+      "fields": {
+        "username": "hanka",
+        "first_name": "Hanna",
+        "last_name": "Mostowiak",
+        "password": "user_password",
+        "email": "hanna.mostowiak@mail.com"
+      }
+    },
+    {
+        "model": "core.user",
+        "pk": 2,
+        "fields": {
+          "username": "marek",
+          "first_name": "Marek",
+          "last_name": "Mostowiak",
+          "password": "user_password",
+          "email": "marek.mostowiak@mail.com"
+        }
+    }
+]
