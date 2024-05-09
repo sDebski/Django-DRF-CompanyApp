@@ -48,3 +48,17 @@ class ProjectViewSet(
         if self.action == "list":
             return serializers.ProjectReadSerializer
         return serializers.ProjectWriteSerializer
+
+
+class WorkerViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    viewsets.GenericViewSet,
+):
+    queryset = models.Worker.objects.all()
+    filterset_class = filtersets.WorkerFilterSet
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return serializers.WorkerReadSerializer
+        return serializers.WorkerWriteSerializer

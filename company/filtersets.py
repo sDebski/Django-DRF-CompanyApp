@@ -22,3 +22,8 @@ class ProjectFilterSet(FilterSet):
     name = filters.CharFilter(lookup_expr="icontains")
     description = filters.CharFilter(lookup_expr="icontains")
     category = filters.CharFilter(lookup_expr="icotains", field_name="category__name")
+
+
+class WorkerFilterSet(FilterSet):
+    username = filters.CharFilter(lookup_expr="icontains")
+    email = filters.CharFilter(lookup_expr="iexact")

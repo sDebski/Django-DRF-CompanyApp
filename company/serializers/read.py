@@ -29,3 +29,10 @@ class ProjectReadSerializer(serializers.ModelSerializer):
             "created_at": {"read_only": True},
             "icon": {"read_only": True},
         }
+
+
+class WorkerReadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Worker
+        fields = ("username", "email")
+        extra_kwargs = {"username": {"read_only": True}, "email": {"read_only": True}}
