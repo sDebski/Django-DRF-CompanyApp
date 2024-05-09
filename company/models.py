@@ -26,7 +26,7 @@ class Label(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(ProjectCategory, on_delete=models.CASCADE)
     icon = models.ImageField(upload_to="projects/", null=True)
