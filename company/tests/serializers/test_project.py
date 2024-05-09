@@ -63,7 +63,6 @@ class ProjectSerializerTestCase(TestCase, ParametrizedTestCase):
         if failed:
             with self.assertRaises(ValidationError):
                 serializer.is_valid(raise_exception=True)
-                serializer.save()
         else:
             serializer.is_valid(raise_exception=True)
             serializer.save()

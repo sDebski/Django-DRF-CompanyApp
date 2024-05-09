@@ -70,8 +70,8 @@ class ProjectWriteSerializer(serializers.ModelSerializer):
 
 class WorkerWriteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Label
-        fields = ("username", "worker")
+        model = models.Worker
+        fields = ("username", "email")
 
     def username_unique_validation(self, username):
         worker = models.Worker.objects.filter(username=username).exists()
