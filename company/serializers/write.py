@@ -85,3 +85,23 @@ class WorkerWriteSerializer(serializers.ModelSerializer):
 
         worker = models.Worker.objects.create(**validated_data)
         return worker
+
+
+class ProjectIconWriteSerializer(serializers.ModelSerializer):
+    icon = serializers.ImageField()
+
+    class Meta:
+        model = models.Project
+        fields = ("icon",)
+
+    def update(self, instance, validated_data):
+        icon = validated_data.pop("icon")
+        import pdb
+        pdb.set_trace()
+        
+        with transaction.atomic():
+            instance.icon = icon
+            instance.save()
+
+        return instance
+        

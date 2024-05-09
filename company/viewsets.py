@@ -1,6 +1,7 @@
-from rest_framework import mixins, viewsets
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import mixins, viewsets, response, status, decorators
 from company import serializers, models, filtersets
+from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 
 
 class LabelViewSet(
@@ -48,6 +49,16 @@ class ProjectViewSet(
         if self.action == "list":
             return serializers.ProjectReadSerializer
         return serializers.ProjectWriteSerializer
+    
+    @extend_schema(request=serializers.ProjectIconWriteSerializer)
+    @decorators.action(detail=True, methods=["patch"])
+    def icon(self, request, pk):
+        project = get_object_or_404(models.Project, pk=pk)
+        serializer = serializers.ProjectIconWriteSerializer(instance=project, data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return response.Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class WorkerViewSet(
@@ -62,3 +73,9 @@ class WorkerViewSet(
         if self.action == "list":
             return serializers.WorkerReadSerializer
         return serializers.WorkerWriteSerializer
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["request"] = self.request
+
+        return context
