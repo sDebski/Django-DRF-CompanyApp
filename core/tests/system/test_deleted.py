@@ -19,14 +19,14 @@ class UserDeletedTest(APITestCase):
         cls.headers = {"Authorization": f"Token {cls.token.digest}"}
         return super().setUpTestData()
 
-    # def test_login_failed(self):
-    #     payload = {
-    #         "username": "user_del",
-    #         "password": "user_del",
-    #     }
-    #     request = self.factory.post("/core/login/", data=payload, format="json")
-    #     resp = LoginView.as_view()(request)
-    #     self.assertEqual(resp.status_code, 401)
+    def test_login_failed(self):
+        payload = {
+            "username": "user_del",
+            "password": "user_del",
+        }
+        request = self.factory.post("/core/login/", data=payload, format="json")
+        resp = LoginView.as_view()(request)
+        self.assertEqual(resp.status_code, 401)
 
     def test_get_me(self):
         request = self.factory.get("/core/me/", headers=self.headers)
