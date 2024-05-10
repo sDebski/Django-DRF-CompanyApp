@@ -10,6 +10,7 @@ class LabelViewSet(
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet,
 ):
+    permission_classes = []
     queryset = models.Label.objects.all()
     filterset_class = filtersets.LabelFilterSet
 
@@ -81,3 +82,20 @@ class WorkerViewSet(
         context["request"] = self.request
 
         return context
+
+
+class TaskViewSet(
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet,
+):
+    queryset = models.Task.objects.select_related(
+        "project", "assigned_to"
+    ).prefetch_related("labels")
+
+    def get_serializer_class(self):
+        if self.action in ("list", "retrieve"):
+            return serializers.TaskReadSerializer
+        return serializers.TaskWriteSerializer

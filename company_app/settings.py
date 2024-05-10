@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", "123456")
-
+X_API_KEY = os.environ.get("X_API_KEY", "secret")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -144,7 +144,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("company_app.auth.TokenAuthentication",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "company_app.auth.XApiKeyAuthentication",
+        "company_app.auth.TokenAuthentication",
+    ),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -178,7 +181,10 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API for interacting with Company App backend.",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
-    "AUTHENTICATION_WHITELIST": ["company_app.auth.TokenAuthentication"],
+    "AUTHENTICATION_WHITELIST": [
+        "company_app.auth.TokenAuthentication",
+        "company_app.auth.XApiKeyAuthentication",
+    ],
 }
 
 # Password reset options

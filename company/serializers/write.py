@@ -102,3 +102,9 @@ class ProjectIconWriteSerializer(serializers.ModelSerializer):
             instance.save()
 
         return instance
+
+
+class TaskWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Task
+        fields = ("title",)

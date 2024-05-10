@@ -36,3 +36,30 @@ class WorkerReadSerializer(serializers.ModelSerializer):
         model = models.Worker
         fields = ("username", "email")
         extra_kwargs = {"username": {"read_only": True}, "email": {"read_only": True}}
+
+
+class TaskReadSerializer(serializers.ModelSerializer):
+    project = ProjectReadSerializer()
+    assigned_to = WorkerReadSerializer()
+    labels = LabelReadSerializer(many=True)
+
+    class Meta:
+        model = models.Task
+        fields = (
+            "title",
+            "description",
+            "status",
+            "project",
+            "created_at",
+            "assigned_to",
+            "labels",
+        )
+        extra_kwargs = {
+            "title": {"read_only": True},
+            "description": {"read_only": True},
+            "status": {"read_only": True},
+            "project": {"read_only": True},
+            "created_at": {"read_only": True},
+            "assigned_to": {"read_only": True},
+            "labels": {"read_only": True},
+        }
