@@ -96,12 +96,9 @@ class ProjectIconWriteSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         icon = validated_data.pop("icon")
-        import pdb
-        pdb.set_trace()
-        
+
         with transaction.atomic():
             instance.icon = icon
             instance.save()
 
         return instance
-        

@@ -49,12 +49,14 @@ class ProjectViewSet(
         if self.action == "list":
             return serializers.ProjectReadSerializer
         return serializers.ProjectWriteSerializer
-    
+
     @extend_schema(request=serializers.ProjectIconWriteSerializer)
     @decorators.action(detail=True, methods=["patch"])
     def icon(self, request, pk):
         project = get_object_or_404(models.Project, pk=pk)
-        serializer = serializers.ProjectIconWriteSerializer(instance=project, data=request.data)
+        serializer = serializers.ProjectIconWriteSerializer(
+            instance=project, data=request.data
+        )
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -73,7 +75,7 @@ class WorkerViewSet(
         if self.action == "list":
             return serializers.WorkerReadSerializer
         return serializers.WorkerWriteSerializer
-    
+
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context["request"] = self.request
