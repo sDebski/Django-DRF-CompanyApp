@@ -23,10 +23,6 @@ class XApiKeyAuthentication(BaseAuthentication):
         api_key = request.META.get(
             f'HTTP_{self.api_header_key.upper().replace("-", "_")}'
         )
-        print(request.META)
-        print(self.api_header_key, self.api_header_value)
-        print("API_KEY: #", api_key, "#")
         if api_key and self.api_header_value == api_key:
-            print("WSZYSTKO SUPER, wszedlem")
             return (None, None)
         raise AuthenticationFailed("Unauthorized")

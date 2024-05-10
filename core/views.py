@@ -24,12 +24,16 @@ class HealthCheckAuth(APIView):
 
 
 class HealthCheck(HealthCheckAuth):
-    permission_classes = [AllowAny,]
+    permission_classes = [
+        AllowAny,
+    ]
     authentication_classes = []
 
 
 class LoginView(KnoxLoginView):
-    permission_classes = [AllowAny,]
+    permission_classes = [
+        AllowAny,
+    ]
 
     @extend_schema(request=serializers.AuthTokenSerializer)
     def post(self, request, format=None):

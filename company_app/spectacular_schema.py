@@ -8,6 +8,7 @@ class TokenAuthenticationSchema(OpenApiAuthenticationExtension):
     def get_security_definition(self, auto_schema):
         return {"type": "apiKey", "in": "header", "name": "Authorization"}
 
+
 class XApiKeyAuthenticationSchema(OpenApiAuthenticationExtension):
     target_class = "company_app.auth.XApiKeyAuthentication"
     name = "XApiKeyAuthentication"

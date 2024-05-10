@@ -107,4 +107,4 @@ class ProjectIconWriteSerializer(serializers.ModelSerializer):
 class TaskWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Task
-        fields = ("title",)
+        fields = ("title", "description", "status", "project", "assigned_to", "labels")
