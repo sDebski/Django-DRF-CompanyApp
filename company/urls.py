@@ -12,6 +12,7 @@ router.register(
 )
 router.register("projects", viewsets.ProjectViewSet, basename="projects")
 router.register("workers", viewsets.WorkerViewSet, basename="workers")
+router.register("tasks", viewsets.TaskViewSet, basename="tasks")
 
 urlpatterns = []
 urlpatterns += router.urls

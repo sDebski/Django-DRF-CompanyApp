@@ -48,7 +48,7 @@ class Task(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     assigned_to = models.ForeignKey(Worker, on_delete=models.CASCADE)
-    labels = models.ManyToManyField(Label)
+    labels = models.ManyToManyField(Label, related_name="task_labels", blank=True)
 
     def __str__(self):
         return self.title
