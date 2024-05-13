@@ -93,7 +93,7 @@ class TaskViewSet(
 ):
     queryset = models.Task.objects.select_related(
         "project", "assigned_to"
-    ).prefetch_related("labels")
+    ).prefetch_related("labels").order_by("-created_at")
 
     def get_serializer_class(self):
         if self.action in ("list", "retrieve"):
