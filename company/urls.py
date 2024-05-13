@@ -14,5 +14,5 @@ router.register("projects", viewsets.ProjectViewSet, basename="projects")
 router.register("workers", viewsets.WorkerViewSet, basename="workers")
 router.register("tasks", viewsets.TaskViewSet, basename="tasks")
 
-urlpatterns = []
+urlpatterns = [path("cache/", views.CachedView.as_view(), name="cache")]
 urlpatterns += router.urls

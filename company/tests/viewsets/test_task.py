@@ -85,7 +85,6 @@ class TaskViewSetTestCase(APITestCase, ParametrizedTestCase):
             if payload.get("labels"):
                 self.assertTrue(task.labels)
             self.assertTrue(task.created_at)
-            
 
     # def test_project_list(self):
     #     url = reverse("company:projects-list")
