@@ -6,13 +6,14 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
 
 from django.conf import settings
-import time
+from company.utils import calculate_value
 
 
 class CachedView(generics.GenericAPIView):
     """
     View imitating long-drawn task with aching based on value
     """
+
     permission_classes = []
 
     @extend_schema(
@@ -28,6 +29,6 @@ class CachedView(generics.GenericAPIView):
     @method_decorator(vary_on_headers("Authorization"))
     def get(self, requset):
         value = requset.query_params.get("value")
-        time.sleep(1)
-        data = {"value": value, "message": "Cached message"}
+        calculated_value = calculate_value(value=value)
+        data = {"value": calculated_value, "message": "Cached message"}
         return response.Response(data=data, status=status.HTTP_200_OK)

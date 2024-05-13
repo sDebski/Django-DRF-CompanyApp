@@ -5,6 +5,7 @@ from unittest_parametrize import ParametrizedTestCase, parametrize
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.db import models as django_models
+
 User = get_user_model()
 
 
@@ -68,7 +69,6 @@ class TaskViewSetTestCase(APITestCase, ParametrizedTestCase):
                 status.HTTP_400_BAD_REQUEST,
             ),
             ({}, status.HTTP_400_BAD_REQUEST),
-            
         ],
     )
     def test_project_create(self, payload, status_):
@@ -98,10 +98,20 @@ class TaskViewSetTestCase(APITestCase, ParametrizedTestCase):
         for serializer_task, response_task in zip(serializer_tasks_data, response.data):
             with self.subTest(msg="test each task"):
                 self.assertEqual(serializer_task["title"], response_task["title"])
-                self.assertEqual(serializer_task.get("status", "Nowe"), response_task.get("status", "Nowe"))
-                self.assertEqual(serializer_task["assigned_to"]["username"], response_task["assigned_to"]["username"])
-                self.assertEqual(serializer_task["project"]["name"], response_task["project"]["name"])
-                self.assertEqual(serializer_task["description"], response_task["description"])
+                self.assertEqual(
+                    serializer_task.get("status", "Nowe"),
+                    response_task.get("status", "Nowe"),
+                )
+                self.assertEqual(
+                    serializer_task["assigned_to"]["username"],
+                    response_task["assigned_to"]["username"],
+                )
+                self.assertEqual(
+                    serializer_task["project"]["name"], response_task["project"]["name"]
+                )
+                self.assertEqual(
+                    serializer_task["description"], response_task["description"]
+                )
 
     @parametrize(
         ("data,status_"),
