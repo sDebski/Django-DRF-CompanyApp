@@ -4,7 +4,7 @@ from company import serializers, models
 from unittest_parametrize import ParametrizedTestCase, parametrize
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
+from django.db import models as django_models
 User = get_user_model()
 
 
@@ -103,30 +103,37 @@ class TaskViewSetTestCase(APITestCase, ParametrizedTestCase):
                 self.assertEqual(serializer_task["project"]["name"], response_task["project"]["name"])
                 self.assertEqual(serializer_task["description"], response_task["description"])
 
-    # @parametrize(
-    #     "payload,status_",
-    #     [
-    #         ({"name": "Project_name - updated"}, status.HTTP_200_OK),
-    #         ({"descrption": "Description - updated"}, status.HTTP_200_OK),
-    #         ({"name": 1234}, status.HTTP_200_OK),
-    #         ({"category": {"name": "category - updated"}}, status.HTTP_200_OK),
-    #         ({"name": ""}, status.HTTP_400_BAD_REQUEST),
-    #         ({"category": ""}, status.HTTP_400_BAD_REQUEST),
-    #     ],
-    # )
-    # def test_project_update(self, payload, status_):
-    #     project_pk = 1
-    #     url = reverse("company:projects-detail", kwargs={"pk": project_pk})
-    #     response = self.client.patch(url, data=payload, format="json")
+    @parametrize(
+        ("data,status_"),
+        (
+            ({"title": "Title updated"}, status.HTTP_200_OK),
+            ({"description": "Description updated"}, status.HTTP_200_OK),
+            (
+                {
+                    "status": "Zakończone",
+                    "assigned_to": 2,
+                },
+                status.HTTP_200_OK,
+            ),
+            ({}, status.HTTP_200_OK),
+            ({"project": 2137}, status.HTTP_400_BAD_REQUEST),
+            ({"assigned_to": 2137}, status.HTTP_400_BAD_REQUEST),
+            ({"labels": 1}, status.HTTP_400_BAD_REQUEST),
+            ({"status": "Nieistniejący status"}, status.HTTP_400_BAD_REQUEST),
+        ),
+    )
+    def test_write_serializer_update(self, data, status_):
+        task_pk = 1
+        url = reverse("company:tasks-detail", kwargs={"pk": task_pk})
+        response = self.client.patch(url, data=data, format="json")
+        self.assertEqual(response.status_code, status_)
 
-    #     if status_ == status.HTTP_200_OK:
-    #         project = models.Project.objects.get(pk=project_pk)
-    #         if "name" in payload:
-    #             self.assertEqual(project.name, str(payload["name"]))
-    #         if "description" in payload:
-    #             self.assertEqual(project.description, payload["description"])
-    #         if "category" in payload:
-    #             self.assertEqual(project.category.name, payload["category"]["name"])
+        if status_ == status.HTTP_200_OK:
+            task = models.Task.objects.get(pk=task_pk)
+            for data_k, data_v in data.items():
+                task_v = getattr(task, data_k)
 
-    #     else:
-    #         self.assertEqual(response.status_code, status_)
+                if isinstance(task_v, django_models.Model):
+                    task_v = task_v.pk
+
+                self.assertEqual(task_v, data_v)
