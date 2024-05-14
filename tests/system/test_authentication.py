@@ -14,6 +14,5 @@ class AuthTest(APITestCase):
 
     def test_labels_200(self):
         url = reverse("company:labels-list")
-
         resp = self.client.get(url, HTTP_X_API_KEY="secret")
         self.assertEqual(resp.status_code, 200)

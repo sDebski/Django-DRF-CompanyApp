@@ -22,7 +22,7 @@ class CacheViewTestCase(test.APITestCase):
             }
         }
     )
-    @mock.patch("company.utils.calculate_value")
+    @mock.patch("company.views.calculate_value")
     def test_cache(self, mocked_calculate_value):
         """
         Check if response is cached
@@ -32,6 +32,7 @@ class CacheViewTestCase(test.APITestCase):
 
         response = self.client.get(url)
 
+        assert mocked_calculate_value.called
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["value"], 10)
 

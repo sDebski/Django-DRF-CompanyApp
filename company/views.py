@@ -6,7 +6,7 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_headers
 
 from django.conf import settings
-from company import utils
+from company.utils import calculate_value
 
 
 class CachedView(generics.GenericAPIView):
@@ -29,6 +29,6 @@ class CachedView(generics.GenericAPIView):
     @method_decorator(vary_on_headers("Authorization"))
     def get(self, requset):
         value = requset.query_params.get("value")
-        calculated_value = utils.calculate_value(value=value)
+        calculated_value = calculate_value(value=value)
         data = {"value": calculated_value, "message": "Cached message"}
         return response.Response(data=data, status=status.HTTP_200_OK)

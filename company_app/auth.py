@@ -2,7 +2,7 @@ from django.utils.translation import gettext_lazy as _
 from knox.auth import TokenAuthentication as KnoxTokenAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authentication import BaseAuthentication
-from django.conf import settings
+import django.conf as conf
 
 
 class TokenAuthentication(KnoxTokenAuthentication):
@@ -14,7 +14,7 @@ class TokenAuthentication(KnoxTokenAuthentication):
 
 class XApiKeyAuthentication(BaseAuthentication):
     api_header_key = "x-api-key"
-    api_header_value = settings.X_API_KEY
+    api_header_value = conf.settings.X_API_KEY
 
     def authenticate_header(self, request):
         return self.api_header_key
