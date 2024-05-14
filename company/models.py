@@ -66,29 +66,29 @@ class Comment(models.Model):
         return self.content[:50]  # Zwraca pierwsze 50 znaków komentarza
 
 
-# class Action(models.Model):
-#     class ActionTypeChoices(models.TextChoices):
-#         task_added = "dodanie_zadania", "Dodanie zadania"
-#         task_closed = "zamkniecie_zadania", "Zamknięcie zadania"
-#         status = "edycja_statusu", "Edycja statusu"
-#         title = "edycja_tytulu", "Edycja tytułu"
-#         description = "edycja_opisu", "Edycja opisu"
-#         label = "edycja_etykiety", "Edycja etykiet"
-#         assigned_to = "edycja_adresata", "Edycja adresata"
-#         project_name = "edycja_nazwy_projektu", "Edycja nazwy projektu"
+class Action(models.Model):
+    class ActionTypeChoices(models.TextChoices):
+        DODANIE_ZADANIA = "dodanie_zadania", "Dodanie zadania"
+        ZAMKNIECIE_ZADANIA = "zamkniecie_zadania", "Zamknięcie zadania"
+        EDYCJA_STATUSU = "edycja_statusu", "Edycja statusu"
+        EDYCJA_TYTULU = "edycja_tytulu", "Edycja tytułu"
+        EDYCJA_OPISU = "edycja_opisu", "Edycja opisu"
+        EDYCJA_ETYKIETY = "edycja_etykiety", "Edycja etykiet"
+        EDYCJA_ADRESATA = "edycja_adresata", "Edycja adresata"
+        EDYCJA_NAZWY_PROJEKTU = "edycja_nazwy_projektu", "Edycja nazwy projektu"
 
-#     type = models.CharField(max_length=256) #, choices=ActionTypeChoices)
+    type = models.CharField(max_length=50, choices=ActionTypeChoices.choices)
+    # details = {
+    #     "label_1": "stary tytuł",
+    #     "value_1":  "old_title",
+    #     "label_2": "nowy tytuł", # optional
+    #     "value_2": "new_title", # optional
+    #   }
+    details = models.JSONField(null=True, blank=True)
 
-#     # details = {
-#     #     "label_1": "stary tytuł",
-#     #     "value_1":  "old_title",
-#     #     "label_2": "nowy tytuł", # optional
-#     #     "value_2": "new_title", # optional
-#     #   }
-#     details = models.JSONField(null=True, blank=True)
+    def __str__(self):
+        return self.get_type_display()
 
-#     def __str__(self) -> str:
-#         return self.type
 
 
 class HistoryLog(models.Model):
