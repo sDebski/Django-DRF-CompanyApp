@@ -1,6 +1,5 @@
-from rest_framework.test import APITestCase, override_settings
+from rest_framework.test import APITestCase
 from django.urls import reverse
-from django.conf import settings
 
 
 class AuthTest(APITestCase):
@@ -13,13 +12,8 @@ class AuthTest(APITestCase):
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 401)
 
-    @override_settings(X_API_KEY="abc")
     def test_labels_200(self):
-        print("X_API_KEY przed: ", settings.X_API_KEY)
-        url = reverse(
-            "company:labels-list",
-        )
-        print("X_API_KEY po: ", settings.X_API_KEY)
+        url = reverse("company:labels-list")
 
-        resp = self.client.get(url, HTTP_X_API_KEY="abc")
+        resp = self.client.get(url, HTTP_X_API_KEY="secret")
         self.assertEqual(resp.status_code, 200)

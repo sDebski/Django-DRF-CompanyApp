@@ -80,8 +80,6 @@ class ProjectAdmin(admin.ModelAdmin):
     def save_formset(self, request, form, formset, change):
         tasks_data = formset.cleaned_data
 
-        print("CLEANED DATA:", tasks_data)
-        print("Row", tasks_data[0])
         for task_data in tasks_data:
             task_data = task_data["id"]
             task_data.description += " *Parent project has been updated!* "

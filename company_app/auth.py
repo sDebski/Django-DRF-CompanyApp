@@ -14,7 +14,6 @@ class TokenAuthentication(KnoxTokenAuthentication):
 
 class XApiKeyAuthentication(BaseAuthentication):
     api_header_key = "x-api-key"
-    print("X-API-AUTH", settings.X_API_KEY)
     api_header_value = settings.X_API_KEY
 
     def authenticate_header(self, request):
