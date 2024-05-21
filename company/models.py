@@ -1,7 +1,7 @@
 # Create your models here.
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from model_utils import FieldTracker
 User = get_user_model()
 
 
@@ -34,6 +34,8 @@ class Project(models.Model):
     category = models.ForeignKey(ProjectCategory, on_delete=models.CASCADE)
     icon = models.ImageField(upload_to="projects/", null=True)
 
+    tracker = FieldTracker()
+
     def __str__(self):
         return self.name
 
@@ -42,6 +44,7 @@ class Task(models.Model):
     STATUS_CHOICES = [
         ("Nowe", "Nowe"),
         ("W trakcie", "W trakcie"),
+        ("Porzucone", "Porzucone"),
         ("Zakończone", "Zakończone"),
     ]
 
@@ -52,6 +55,8 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     assigned_to = models.ForeignKey(Worker, on_delete=models.CASCADE)
     labels = models.ManyToManyField(Label, related_name="task_labels", blank=True)
+
+    tracker = FieldTracker()
 
     def __str__(self):
         return self.title
@@ -94,9 +99,7 @@ class HistoryLog(models.Model):
     task = models.ForeignKey(
         Task, on_delete=models.CASCADE, related_name="history_logs"
     )
-    actions = models.ManyToManyField(
-        Action, related_name="history_logs"
-    )
+    actions = models.ManyToManyField(Action, related_name="history_logs")
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="history_logs"
     )

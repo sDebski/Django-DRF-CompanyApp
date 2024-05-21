@@ -24,6 +24,7 @@ django-filter = "22.1"
 unittest-parametrize = "^1.4.0"
 django-redis = "^5.4.0"
 redis = "^5.0.4"
+django-model-utils = "^4.5.1"
 
 
 [build-system]

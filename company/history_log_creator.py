@@ -1,0 +1,167 @@
+from company import models
+from core.models import User
+
+
+class HistoryLogCreator:
+    """
+    Class which performs creating history log based on task changes
+    """
+
+    closing_statuses = ["Zakończone", "Porzucone"]
+
+    action_types_draft = {
+        "status_id": {
+            "type": "edycja_statusu",
+            "label_1": "Stary status",
+            "label_2": "Nowy status",
+        },
+        "note": {
+            "type": "edycja_tytulu",
+            "label_1": "Stary tytuł",
+            "label_2": "Nowy tytuł",
+        },
+        "name": {
+            "type": "edycja_opisu",
+            "label_1": "Stary opis",
+            "label_2": "Nowy opis",
+        },
+        "address": {
+            "type": "edycja_etykiety",
+            "label_1": "Stara etykieta",
+            "label_2": "Nowa etykieta",
+        },
+        "website": {
+            "type": "edycja_adresata",
+            "label_1": "Stary adresat",
+            "label_2": "Nowy adresat",
+        },
+        "attachment": {
+            "type": "edycja_nazwy_projektu",
+            "label_1": "Stara nazwa projektu",
+            "label_2": "Nowa nazwa projektu",
+        },
+    }
+
+    @classmethod
+    def add_creation_history_log(cls, instance: models.Task, user: User):
+        """
+        Creates history log with basic creation action
+        """
+        action_details = {
+            "label_1": "Dodano zadanie:",
+            "value_1": instance.title,
+        }
+        action = models.Action.objects.create(
+            type="dodanie_zadania", details=action_details
+        )
+        history_log = models.HistoryLog.objects.create(task=instance, user=user)
+        history_log.actions.add(action)
+        history_log.save()
+        return history_log
+
+    @staticmethod
+    def add_history_log_with_actions(
+        instance: models.Task, user: User, actions: list[models.Action]
+    ):
+        """
+        Function that creates history log with actions
+        """
+        if actions:
+            history_log = models.HistoryLog.objects.create(task=instance, user=user)
+            history_log.actions.add(*[action.pk for action in actions])
+            history_log.save()
+            return history_log
+        return None
+
+    @classmethod
+    def get_closing_status_action(self, instance):
+        """
+        Function creates closing action and returns created Action obj.
+        """
+        action_details = {
+            "label_1": "Zamknięto zadanie, Powód:",
+            "value_1": f" {instance.status}",
+        }
+        return models.Action.objects.create(
+            type="Zamknięcie zadania", details=action_details
+        )
+
+    @classmethod
+    def add_attachment_action(cls, attachment):
+        instance = attachment
+        if not instance.reservation or not instance.file:
+            return
+        reservation = instance.reservation
+        history_log = reservation.history_logs.first()
+        if not history_log:
+            return
+
+        action_details = cls.action_types_draft.get("attachment")
+        attachment_details = {
+            "label_1": action_details.get("label_1"),
+            "value_1": instance.file_base_name,
+        }
+        action = models.Action.objects.create(
+            type=action_details.get("type"), details=attachment_details
+        )
+        history_log.actions.add(action.pk)
+
+    @classmethod
+    def handle_closing_status(self, key, instance, actions):
+        """
+        Function checks if the new status in "Zakończone" to perform adding closing action.
+        """
+        local_actions = actions[:]
+
+        if (
+            key == "status"
+            and instance.status in self.closing_statuses
+        ):
+            local_actions.append(self.get_closing_status_action(instance=instance))
+            return local_actions
+        return local_actions
+
+    @classmethod
+    def create(cls, task: models.Task, user: User=None, created=False):
+        """
+        Creates history log based on task instance and user.
+        One can also add info about the task being created or modified.
+        Function returns created HistoryLog object or None.
+        """
+        instance = task
+        if created:
+            return cls.add_creation_history_log(instance=instance)
+
+        actions = []
+        changes = {**instance.tracker.changed(), **instance.project.tracker.changed()}
+        project_fields = instance.project.tracker.changed().keys()
+        for key, value in changes.items():
+            obj = instance.project if key in project_fields else instance
+            if key == "assigned_to":
+                old_value = models.Worker.objects.get(pk=value).name
+                new_value = instance.assigned_to.username
+            else:
+                old_value = value
+                new_value = getattr(obj, key)
+            action_type = cls.action_types_draft.get(key)
+            if not action_type:
+                continue
+            action_details = {
+                "label_1": action_type.get("label_1"),
+                "value_1": old_value,
+                "label_2": action_type.get("label_2"),
+                "value_2": new_value,
+            }
+
+            action = models.Action.objects.create(
+                type=action_type["type"], details=action_details
+            )
+            actions.append(action)
+
+            actions = cls.handle_closing_status(
+                key=key, instance=instance, actions=actions
+            )
+
+        return cls.add_history_log_with_actions(
+            instance=instance, actions=actions, user=user
+        )

@@ -9,29 +9,79 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('company', '0004_alter_task_labels'),
+        ("company", "0004_alter_task_labels"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Action',
+            name="Action",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[('dodanie_zadania', 'Dodanie zadania'), ('zamkniecie_zadania', 'Zamknięcie zadania'), ('edycja_statusu', 'Edycja statusu'), ('edycja_tytulu', 'Edycja tytułu'), ('edycja_opisu', 'Edycja opisu'), ('edycja_etykiety', 'Edycja etykiet'), ('edycja_adresata', 'Edycja adresata'), ('edycja_nazwy_projektu', 'Edycja nazwy projektu')], max_length=50)),
-                ('details', models.JSONField(blank=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "type",
+                    models.CharField(
+                        choices=[
+                            ("dodanie_zadania", "Dodanie zadania"),
+                            ("zamkniecie_zadania", "Zamknięcie zadania"),
+                            ("edycja_statusu", "Edycja statusu"),
+                            ("edycja_tytulu", "Edycja tytułu"),
+                            ("edycja_opisu", "Edycja opisu"),
+                            ("edycja_etykiety", "Edycja etykiet"),
+                            ("edycja_adresata", "Edycja adresata"),
+                            ("edycja_nazwy_projektu", "Edycja nazwy projektu"),
+                        ],
+                        max_length=50,
+                    ),
+                ),
+                ("details", models.JSONField(blank=True, null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='HistoryLog',
+            name="HistoryLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('actions', models.ManyToManyField(related_name='history_logs', to='company.Action')),
-                ('task', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='history_logs', to='company.task')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='history_logs', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "actions",
+                    models.ManyToManyField(
+                        related_name="history_logs", to="company.Action"
+                    ),
+                ),
+                (
+                    "task",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="history_logs",
+                        to="company.task",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="history_logs",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-created_at'],
+                "ordering": ["-created_at"],
             },
         ),
     ]
