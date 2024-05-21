@@ -90,14 +90,13 @@ class Action(models.Model):
         return self.get_type_display()
 
 
-
 class HistoryLog(models.Model):
     task = models.ForeignKey(
         Task, on_delete=models.CASCADE, related_name="history_logs"
     )
-    # actions = models.ManyToManyField(
-    #     Action, related_name="history_logs"
-    # )
+    actions = models.ManyToManyField(
+        Action, related_name="history_logs"
+    )
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="history_logs"
     )

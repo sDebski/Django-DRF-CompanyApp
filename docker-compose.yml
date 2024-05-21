@@ -41,7 +41,7 @@ services:
       dockerfile: ./Dockerfile
       target: image_nginx
     ports:
-      - "80:80"
+      - "8004:8000"
     depends_on:
       - django
     volumes:
