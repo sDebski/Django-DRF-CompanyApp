@@ -3,6 +3,9 @@ from company import models
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
+from company.history_log_creator import HistoryLogCreator
+from typing import Any
+import copy
 
 
 class LabelWriteSerializer(serializers.ModelSerializer):
@@ -108,3 +111,28 @@ class TaskWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Task
         fields = ("title", "description", "status", "project", "assigned_to", "labels")
+
+    def create(self, validated_data):
+        user = self.context["request"].user
+        labels = validated_data.pop("labels", [])
+        task = models.Task.objects.create(**validated_data)
+
+        task.labels.set(labels)
+
+        HistoryLogCreator.create(task=task, user=user, created=True)
+
+        return task
+
+    def update(self, instance, validated_data):
+        labels = validated_data.pop("labels", [])
+
+        for field, value in validated_data.items():
+            setattr(instance, field, value)
+
+            user = self.context["request"].user
+            HistoryLogCreator.create(task=instance, user=user)
+
+        instance.labels.set(labels)
+
+        instance.save()
+        return instance

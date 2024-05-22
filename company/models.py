@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from model_utils import FieldTracker
+
 User = get_user_model()
 
 
@@ -80,7 +81,6 @@ class Action(models.Model):
         EDYCJA_OPISU = "edycja_opisu", "Edycja opisu"
         EDYCJA_ETYKIETY = "edycja_etykiety", "Edycja etykiet"
         EDYCJA_ADRESATA = "edycja_adresata", "Edycja adresata"
-        EDYCJA_NAZWY_PROJEKTU = "edycja_nazwy_projektu", "Edycja nazwy projektu"
 
     type = models.CharField(max_length=50, choices=ActionTypeChoices.choices)
     # details = {
@@ -90,6 +90,9 @@ class Action(models.Model):
     #     "value_2": "new_title", # optional
     #   }
     details = models.JSONField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["type"]
 
     def __str__(self):
         return self.get_type_display()

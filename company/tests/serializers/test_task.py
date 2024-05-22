@@ -3,6 +3,11 @@ from django.db import models as django_models
 from django.test import TestCase
 from unittest_parametrize import ParametrizedTestCase, parametrize
 from rest_framework.exceptions import ValidationError
+from company.tests.mocks.mock_request import MockRequest
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class TaskSerializerTestCase(TestCase, ParametrizedTestCase):
@@ -12,7 +17,12 @@ class TaskSerializerTestCase(TestCase, ParametrizedTestCase):
         "worker.json",
         "label.json",
         "task.json",
+        "user.json",
     ]
+
+    def setUp(self) -> None:
+        self.user = User.objects.first()
+        return super().setUp()
 
     def test_read_serializer(self):
         task = models.Task.objects.get(pk=1)
@@ -39,7 +49,10 @@ class TaskSerializerTestCase(TestCase, ParametrizedTestCase):
             "labels": [1, 2],
         }
 
-        serializer = serializers.TaskWriteSerializer(data=data)
+        request = MockRequest(user=self.user, method="POST")
+        serializer = serializers.TaskWriteSerializer(
+            data=data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
@@ -74,8 +87,9 @@ class TaskSerializerTestCase(TestCase, ParametrizedTestCase):
     def test_write_serializer_update(self, data, failed):
         task = models.Task.objects.get(pk=1)
 
+        request = MockRequest(user=self.user, method="PATCH")
         serializer = serializers.TaskWriteSerializer(
-            instance=task, data=data, partial=True
+            instance=task, data=data, partial=True, context={"request": request}
         )
 
         if failed:

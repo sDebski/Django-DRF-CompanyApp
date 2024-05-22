@@ -10,40 +10,35 @@ class HistoryLogCreator:
     closing_statuses = ["Zakończone", "Porzucone"]
 
     action_types_draft = {
-        "status_id": {
+        "status": {
             "type": "edycja_statusu",
             "label_1": "Stary status",
             "label_2": "Nowy status",
         },
-        "note": {
+        "title": {
             "type": "edycja_tytulu",
             "label_1": "Stary tytuł",
             "label_2": "Nowy tytuł",
         },
-        "name": {
+        "description": {
             "type": "edycja_opisu",
             "label_1": "Stary opis",
             "label_2": "Nowy opis",
         },
-        "address": {
-            "type": "edycja_etykiety",
-            "label_1": "Stara etykieta",
-            "label_2": "Nowa etykieta",
-        },
-        "website": {
+        # "labels": {
+        #     "type": "edycja_etykiety",
+        #     "label_1": "Stara etykieta",
+        #     "label_2": "Nowa etykieta",
+        # },
+        "assigned_to_id": {
             "type": "edycja_adresata",
             "label_1": "Stary adresat",
             "label_2": "Nowy adresat",
         },
-        "attachment": {
-            "type": "edycja_nazwy_projektu",
-            "label_1": "Stara nazwa projektu",
-            "label_2": "Nowa nazwa projektu",
-        },
     }
 
-    @classmethod
-    def add_creation_history_log(cls, instance: models.Task, user: User):
+    @staticmethod
+    def add_creation_history_log(instance: models.Task, user: User):
         """
         Creates history log with basic creation action
         """
@@ -73,8 +68,8 @@ class HistoryLogCreator:
             return history_log
         return None
 
-    @classmethod
-    def get_closing_status_action(self, instance):
+    @staticmethod
+    def get_closing_status_action(instance):
         """
         Function creates closing action and returns created Action obj.
         """
@@ -83,7 +78,7 @@ class HistoryLogCreator:
             "value_1": f" {instance.status}",
         }
         return models.Action.objects.create(
-            type="Zamknięcie zadania", details=action_details
+            type="zamkniecie_zadania", details=action_details
         )
 
     @classmethod
@@ -107,22 +102,19 @@ class HistoryLogCreator:
         history_log.actions.add(action.pk)
 
     @classmethod
-    def handle_closing_status(self, key, instance, actions):
+    def handle_closing_status(cls, key, instance, actions):
         """
         Function checks if the new status in "Zakończone" to perform adding closing action.
         """
         local_actions = actions[:]
 
-        if (
-            key == "status"
-            and instance.status in self.closing_statuses
-        ):
-            local_actions.append(self.get_closing_status_action(instance=instance))
+        if key == "status" and instance.status in cls.closing_statuses:
+            local_actions.append(cls.get_closing_status_action(instance=instance))
             return local_actions
         return local_actions
 
     @classmethod
-    def create(cls, task: models.Task, user: User=None, created=False):
+    def create(cls, task: models.Task, user: User = None, created=False):
         """
         Creates history log based on task instance and user.
         One can also add info about the task being created or modified.
@@ -130,19 +122,22 @@ class HistoryLogCreator:
         """
         instance = task
         if created:
-            return cls.add_creation_history_log(instance=instance)
+            return cls.add_creation_history_log(instance=instance, user=user)
 
         actions = []
         changes = {**instance.tracker.changed(), **instance.project.tracker.changed()}
         project_fields = instance.project.tracker.changed().keys()
         for key, value in changes.items():
             obj = instance.project if key in project_fields else instance
-            if key == "assigned_to":
-                old_value = models.Worker.objects.get(pk=value).name
+            if key in ["labels"]:
+                continue
+            if key == "assigned_to_id":
+                old_value = models.Worker.objects.get(pk=value).username
                 new_value = instance.assigned_to.username
             else:
                 old_value = value
                 new_value = getattr(obj, key)
+
             action_type = cls.action_types_draft.get(key)
             if not action_type:
                 continue
