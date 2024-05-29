@@ -206,3 +206,8 @@ CACHES = {
         },
     }
 }
+
+# CELERY
+
+CELERY_BROKER_URL = f"redis://:{os.environ.get('REDIS_PASSWORD', '')}@{os.environ.get('REDIS_URL', '')}/0"
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL

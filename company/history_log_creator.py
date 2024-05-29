@@ -25,11 +25,6 @@ class HistoryLogCreator:
             "label_1": "Stary opis",
             "label_2": "Nowy opis",
         },
-        # "labels": {
-        #     "type": "edycja_etykiety",
-        #     "label_1": "Stara etykieta",
-        #     "label_2": "Nowa etykieta",
-        # },
         "assigned_to_id": {
             "type": "edycja_adresata",
             "label_1": "Stary adresat",

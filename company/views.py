@@ -7,7 +7,7 @@ from django.views.decorators.vary import vary_on_headers
 
 from django.conf import settings
 from company.utils import calculate_value
-
+from company.tasks import test_add
 
 class CachedView(generics.GenericAPIView):
     """
@@ -31,4 +31,15 @@ class CachedView(generics.GenericAPIView):
         value = requset.query_params.get("value")
         calculated_value = calculate_value(value=value)
         data = {"value": calculated_value, "message": "Cached message"}
+        return response.Response(data=data, status=status.HTTP_200_OK)
+
+
+class RPCView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, requset):
+        task = test_add.apply_async((10,20))
+
+        result = task.get(timeout=10)
+        data = {"result": result, "message": "RPC result successfully received."}
         return response.Response(data=data, status=status.HTTP_200_OK)
