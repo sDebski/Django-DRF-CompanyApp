@@ -56,6 +56,17 @@ services:
         max-size: "1g"
     restart: unless-stopped
 
+  celery:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: image_base
+    command: celery -A company_app worker -l info
+    logging:
+      options:
+        max-size: "1g"
+    restart: unless-stopped
+
 volumes:
   db-data:
   static_volume:

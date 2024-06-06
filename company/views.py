@@ -9,6 +9,8 @@ from django.conf import settings
 from company.utils import calculate_value
 from company.tasks import test_add
 
+from celery.result import AsyncResult
+
 class CachedView(generics.GenericAPIView):
     """
     View imitating long-drawn task with aching based on value
@@ -34,12 +36,22 @@ class CachedView(generics.GenericAPIView):
         return response.Response(data=data, status=status.HTTP_200_OK)
 
 
-class RPCView(generics.GenericAPIView):
+class RPCTaskSetView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, requset):
-        task = test_add.apply_async((10,20))
-
-        result = task.get(timeout=10)
-        data = {"result": result, "message": "RPC result successfully received."}
+        task_id = test_add.delay(10,20)
+        data = {"task_id": task_id, "message": "RPC result successfully ordered."}
         return response.Response(data=data, status=status.HTTP_200_OK)
+    
+
+class RPCTaskResultView(generics.GenericAPIView):
+    permission_classes = []
+
+    def get(self, request, task_id, *args, **kwargs):
+        task_result = AsyncResult(task_id)
+        if task_result.ready():
+            result = task_result.result
+        else:
+            result = 'Task is still processing'
+        return response.Response({'task_id': task_id, 'result': result})

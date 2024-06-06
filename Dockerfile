@@ -1,4 +1,4 @@
-FROM python:3.10-slim as image_django
+FROM python:3.10-slim as image_base
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -29,9 +29,11 @@ RUN poetry export -f requirements.txt --output requirements.txt
 
 RUN pip3 install -r requirements.txt
 
+COPY . .
 # USER appuser
 
-COPY . .
+FROM image_base as image_django
+
 ENTRYPOINT ["sh", "./entrypoint.sh" ]
 
 
