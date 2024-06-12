@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
       target: image_django
+    container_name: django
     expose: 
       - "8000"
     volumes: 
@@ -41,7 +42,7 @@ services:
       dockerfile: ./Dockerfile
       target: image_nginx
     ports:
-      - "8004:8000"
+      - "8003:8000"
     depends_on:
       - django
     volumes:
@@ -65,7 +66,13 @@ services:
     logging:
       options:
         max-size: "1g"
+    env_file:
+      - ./.env
     restart: unless-stopped
+    depends_on:
+      redis:
+        condition:
+          service_started
 
   celery_beat:
     build:
@@ -77,6 +84,8 @@ services:
       options:
         max-size: "1g"
     restart: unless-stopped
+    env_file:
+      - ./.env
     depends_on:
       celery:
         condition: service_started
