@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_rest_passwordreset",
     "django_filters",
+    "django_celery_beat",
     # "corsheaders",
 ]
 
