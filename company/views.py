@@ -40,8 +40,8 @@ class RPCTaskSetView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, requset):
-        test_add.delay(10,20)
-        data = {"message": "RPC result successfully ordered."}
+        result = test_add.delay(10,20)
+        data = {"task_id": result.id, "message": "RPC result successfully ordered."}
         return response.Response(data=data, status=status.HTTP_200_OK)
     
 
