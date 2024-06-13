@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('company', '0007_alter_action_type'),
+        ("company", "0007_alter_action_type"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='task',
-            name='expired_at',
+            model_name="task",
+            name="expired_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='task',
-            name='maximum_expired_at',
+            model_name="task",
+            name="maximum_expired_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]
