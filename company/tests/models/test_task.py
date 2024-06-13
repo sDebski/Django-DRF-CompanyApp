@@ -61,16 +61,31 @@ class AttrHandlerTestCase(APITestCase, ParametrizedTestCase):
             datetime(2024, 6, 12, 23, 59, tzinfo=timezone.utc),
         )
 
-    @freeze_time("2024-04-20 12:00:00")
-    def test_expiration_date_at_modification(self):
-        self.task.title = "Nowy tytuł"
+    @freeze_time("2024-05-20 12:00:00")
+    def test_expiration_date_at_changing_non_active_to_active(self):
+        self._create_task(status="Porzucone")
+        self.task.status = "W trakcie"
         self.task.save()
         self.task.refresh_from_db()
 
         self.assertEqual(
-            self.task.expired_at, datetime(2024, 5, 17, 23, 59, tzinfo=timezone.utc)
+            self.task.expired_at, datetime(2024, 6, 17, 23, 59, tzinfo=timezone.utc)
         )
         self.assertEqual(
             self.task.maximum_expired_at,
-            datetime(2024, 6, 12, 23, 59, tzinfo=timezone.utc),
+            datetime(2024, 8, 12, 23, 59, tzinfo=timezone.utc),
+        )
+
+    @freeze_time("2024-07-20 12:00:00")
+    def test_expiration_date_at_changing_to_finished(self):
+        self.task.status = "Zakończone"
+        self.task.save()
+        self.task.refresh_from_db()
+
+        self.assertEqual(
+            self.task.expired_at, datetime(2024, 8, 16, 23, 59, tzinfo=timezone.utc)
+        )
+        self.assertEqual(
+            self.task.maximum_expired_at,
+            datetime(2024, 8, 16, 23, 59, tzinfo=timezone.utc),
         )
