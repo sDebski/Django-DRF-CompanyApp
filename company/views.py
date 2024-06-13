@@ -11,6 +11,7 @@ from company.tasks import test_add
 
 from celery.result import AsyncResult
 
+
 class CachedView(generics.GenericAPIView):
     """
     View imitating long-drawn task with aching based on value
@@ -40,10 +41,10 @@ class RPCTaskSetView(generics.GenericAPIView):
     permission_classes = []
 
     def get(self, requset):
-        result = test_add.delay(10,20)
+        result = test_add.delay(10, 20)
         data = {"task_id": result.id, "message": "RPC result successfully ordered."}
         return response.Response(data=data, status=status.HTTP_200_OK)
-    
+
 
 class RPCTaskResultView(generics.GenericAPIView):
     permission_classes = []
@@ -53,5 +54,5 @@ class RPCTaskResultView(generics.GenericAPIView):
         if task_result.ready():
             result = task_result.result
         else:
-            result = 'Task is still processing'
-        return response.Response({'task_id': task_id, 'result': result})
+            result = "Task is still processing"
+        return response.Response({"task_id": task_id, "result": result})

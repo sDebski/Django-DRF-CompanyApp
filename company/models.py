@@ -57,6 +57,10 @@ class Task(models.Model):
     assigned_to = models.ForeignKey(Worker, on_delete=models.CASCADE)
     labels = models.ManyToManyField(Label, related_name="task_labels", blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    expired_at = models.DateTimeField(null=True, blank=True)
+    maximum_expired_at = models.DateTimeField(null=True, blank=True)
+
     tracker = FieldTracker()
 
     def __str__(self):

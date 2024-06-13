@@ -1342,7 +1342,17 @@ files = [
     {file = "wcwidth-0.2.13.tar.gz", hash = "sha256:72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"},
 ]
 
+[[package]]
+name = "workdays"
+version = "1.4"
+description = "Workday date utility functions to extend python's datetime"
+optional = false
+python-versions = "*"
+files = [
+    {file = "workdays-1.4.tar.gz", hash = "sha256:0f6cbaf1bba2c3ab2f7e14d8a84582b79e7de4e2ae3e486954724435e55af230"},
+]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "e89ab70f3b522e3f05a34554132c94ab32d0786ce0879b4b54f80cb96cc34231"
+content-hash = "6cf86c12228228311ff1a610c99a0306ea2e922914f9022f37ce8156461b390e"

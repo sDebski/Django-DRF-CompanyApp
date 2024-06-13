@@ -124,7 +124,7 @@ class HistoryLogCreator:
         project_fields = instance.project.tracker.changed().keys()
         for key, value in changes.items():
             obj = instance.project if key in project_fields else instance
-            if key in ["labels"]:
+            if key in ["labels", "expired_at", "maximum_expired_at"]:
                 continue
             if key == "assigned_to_id":
                 old_value = models.Worker.objects.get(pk=value).username
