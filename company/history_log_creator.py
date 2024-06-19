@@ -68,6 +68,7 @@ class HistoryLogCreator:
         """
         Function creates closing action and returns created Action obj.
         """
+        
         action_details = {
             "label_1": "Zamknięto zadanie, Powód:",
             "value_1": f" {instance.status}",
