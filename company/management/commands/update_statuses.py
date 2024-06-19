@@ -22,12 +22,12 @@ class Command(BaseCommand):
 
         for task in active_tasks:
             task.status = (
-                "Zakończone"
+                "Zamknięte"
                 if task.expired_at == task.maximum_expired_at
-                else "Zamknięte"
+                else "Zakończone"
             )
             HistoryLogCreator.create(task=task, user=system_user)
 
-        models.Reservation.objects.bulk_update(active_tasks, ["status"])
+        models.Task.objects.bulk_update(active_tasks, ["status"])
 
         self.stdout.write(f"Statuses updated.")

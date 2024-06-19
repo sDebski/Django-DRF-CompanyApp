@@ -17,7 +17,7 @@ class AttrHandlerTestCase(APITestCase, ParametrizedTestCase):
     def setUp(self) -> None:
         self._create_task()
         return super().setUp()
-    
+
     @freeze_time("2024-03-20 12:00:00")
     def _create_task(self, **task_data):
         project = Project.objects.get(pk=1)

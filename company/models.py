@@ -46,7 +46,7 @@ class Task(models.Model):
         ("Nowe", "Nowe"),
         ("W trakcie", "W trakcie"),
         ("Porzucone", "Porzucone"),
-        ("Zakończone", "Zakończone")
+        ("Zakończone", "Zakończone"),
         ("Zamknięte", "Zamknięte"),
     ]
 

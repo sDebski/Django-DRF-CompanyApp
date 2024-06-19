@@ -68,7 +68,7 @@ class HistoryLogCreator:
         """
         Function creates closing action and returns created Action obj.
         """
-        
+
         action_details = {
             "label_1": "Zamknięto zadanie, Powód:",
             "value_1": f" {instance.status}",
@@ -76,26 +76,6 @@ class HistoryLogCreator:
         return models.Action.objects.create(
             type="zamkniecie_zadania", details=action_details
         )
-
-    @classmethod
-    def add_attachment_action(cls, attachment):
-        instance = attachment
-        if not instance.reservation or not instance.file:
-            return
-        reservation = instance.reservation
-        history_log = reservation.history_logs.first()
-        if not history_log:
-            return
-
-        action_details = cls.action_types_draft.get("attachment")
-        attachment_details = {
-            "label_1": action_details.get("label_1"),
-            "value_1": instance.file_base_name,
-        }
-        action = models.Action.objects.create(
-            type=action_details.get("type"), details=attachment_details
-        )
-        history_log.actions.add(action.pk)
 
     @classmethod
     def handle_closing_status(cls, key, instance, actions):
