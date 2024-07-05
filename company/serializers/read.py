@@ -21,8 +21,9 @@ class ProjectReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Project
-        fields = ("name", "description", "category", "created_at", "icon")
+        fields = ("pk", "name", "description", "category", "created_at", "icon")
         extra_kwargs = {
+            "pk": {"read_only": True},
             "name": {"read_only": True},
             "description": {"read_only": True},
             "category": {"read_only": True},
@@ -46,6 +47,7 @@ class TaskReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Task
         fields = (
+            "pk",
             "title",
             "description",
             "status",
@@ -55,6 +57,7 @@ class TaskReadSerializer(serializers.ModelSerializer):
             "labels",
         )
         extra_kwargs = {
+            "pk": {"read_only": True},
             "title": {"read_only": True},
             "description": {"read_only": True},
             "status": {"read_only": True},

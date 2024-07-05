@@ -2,6 +2,7 @@ from rest_framework import mixins, viewsets, response, status, decorators
 from company import serializers, models, filtersets
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
+from company.permissions import TaskOwnerEditPermission
 
 
 class LabelViewSet(
@@ -91,6 +92,7 @@ class TaskViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
+    permission_classes = [TaskOwnerEditPermission]
     queryset = (
         models.Task.objects.select_related("project", "assigned_to")
         .prefetch_related("labels")

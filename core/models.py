@@ -41,6 +41,10 @@ class User(AbstractUser):
     last_name = models.CharField(_("last_name"), max_length=128, blank=True)
     email = models.EmailField(_("email_address"), unique=True)
 
+    worker = models.ForeignKey(
+        "company.Worker", null=True, blank=True, on_delete=models.SET_NULL
+    )
+
     is_deleted = models.BooleanField(default=False)
 
     objects = UserManager()

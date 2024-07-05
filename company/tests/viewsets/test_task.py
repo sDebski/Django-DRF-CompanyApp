@@ -21,6 +21,11 @@ class TaskViewSetTestCase(APITestCase, ParametrizedTestCase):
 
     def setUp(self) -> None:
         self.user = User.objects.get(pk=1)
+
+        worker = models.Worker.objects.get(pk=1)
+        self.user.worker = worker
+        self.user.save()
+
         self.client.force_authenticate(user=self.user)
         return super().setUp()
 
@@ -136,6 +141,7 @@ class TaskViewSetTestCase(APITestCase, ParametrizedTestCase):
         task_pk = 1
         url = reverse("company:tasks-detail", kwargs={"pk": task_pk})
         response = self.client.patch(url, data=data, format="json")
+
         self.assertEqual(response.status_code, status_)
 
         if status_ == status.HTTP_200_OK:
