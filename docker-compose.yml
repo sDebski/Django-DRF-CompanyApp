@@ -56,6 +56,10 @@ services:
       options:
         max-size: "1g"
     restart: unless-stopped
+    depends_on:
+      django:
+        condition:
+          service_started
 
   celery:
     build:

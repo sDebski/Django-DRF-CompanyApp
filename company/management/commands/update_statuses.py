@@ -18,7 +18,7 @@ class Command(BaseCommand):
         active_tasks = models.Task.objects.filter(
             status__in=["W trakcie", "Nowe"], expired_at__date=current_date
         )
-        system_user = User.objects.get_or_create(username="system")[0]
+        system_user = User.objects.get_or_create(username="system", email="system@test.com")[0]
 
         for task in active_tasks:
             task.status = (
