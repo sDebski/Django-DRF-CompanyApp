@@ -5,73 +5,74 @@
 
 ## ✉️ Technologies used:
 
-- Django
-- Celery
-- RabbitMQ
-- PostgreSQL
-- Docker
-- Docker Compose
+- Django=4.2.15,
+- Celery, Celery Beat,
+- Redis,
+- PostgreSQL,
+- Docker,
+- Docker Compose,
+- Nginx,
+- Swagger,
+- Poetry,
 
 ## ✉️ About
 
-Project showing the usage of microservices with event-driven communication.
-The idea is based of dividing the functionality of the app to microservices.
+This project demonstrates an app based on DRF, showcasing various Django functionalities.
+The database structure used in the project simulates a company.
 
-## ✉️ Services
+## ✉️ Topics used in apps:
 
-- Users - service to manage users, create, update, delete them
-- Emails - service to manage emails send to user on changing user model
+### Company App
+- Custom commands management to populate database based on fixtures
+- Integrated swagger to document api structure
+  - API Key authentication
+  - Knox Token authentication
+- Customized admin panel
+- Customized exception handler
+
+### Core
+- Middleware to log app usage
+- Password reset option
+- Password validators
+- Password history
+- App healthcheck endpoints
+
+### Company
+- Model fixtures
+- Commands on updating statuses
+- Signals
+- Filtersets
+- HistoryLog creator for Task objects changes
+- Custom permissions
+- Celery tasks
+- Celery + Redis RPC
+- Caching
+
+### Tests
+- Migration tests
+- Unit tests
+- Integration tests
+  
 
 ## ✉️ Setup
 
 - You can download the repo using this code via terminal
 ```bash
-git clone https://github.com/sDebski/Microservices.git
-```
-- Create .env file based on template.env in app directory
-```bash
-POSTGRES_DB=dbname
-DB_HOST_DEFAULT=psql_db
-DB_PORT_DEFAULT=5432
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin
-
-MQ_USERNAME=guest
-MQ_PASSWORD=guest
-MQ_HOST=rabbit_mq
-MQ_PORT=5672
-
-EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
-EMAIL_HOST_USER=system@mail.com
+git clone https://github.com/sDebski/Django-DRF-CompanyApp.git
 ```
 ## ✉️ Launch
 
-Being in the app folder use command: `docker compose up --build -d`
+While in the app folder, use the following command: `docker compose up --build -d`
 
 ## ✉️ Inspect
 
-- Open the app in you browser at:
-[admin_panel](http://localhost:80/admin/)
+- Open API documentation in your browser at:
+[swagger](http://localhost:8003/swagger/)
 
+- Open the admin panel in your browser at: [admin_panel](http://localhost:8003/admin/)
 - Login to admin panel, create and update users
 ```bash
 login: admin
 password: admin
-```
-
-- Go into celery container named: `microservices-email-celery-1`
-and see that email is being send via console during updating or creating user in users app:
-
-```
-2024-03-13 13:29:06 Subject: Welcome!
-2024-03-13 13:29:06 From: system@mail.com
-2024-03-13 13:29:06 To: test_user@email.com
-2024-03-13 13:29:06 Date: Wed, 13 Mar 2024 12:29:06 -0000
-2024-03-13 13:29:06 Message-ID: <171033294625.9.8126894065475988290@483b923b9ebd>
-2024-03-13 13:29:06
-2024-03-13 13:29:06 Hello test_user, here is a message for you
 ```
 
