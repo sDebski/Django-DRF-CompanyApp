@@ -8,11 +8,15 @@ import os
 @receiver(post_save, sender=models.Task)
 def modify_expiration_dates(instance, created, **kwargs):
     """
-    Modify or not the expiration dates based on status changes
-    (*) - Reset both exp dates if created or came back from 'Porzucone' to 'W trakcie'
-    (*) - Add 'action days' to both exp dates when 'Zakończone' status set
-    (*) - Do not modify if 'Porzucone' or 'Zakończone' status
-    (*) - In other cases: Add 'action days' to expired_at depending on upper limit date
+    Modify or not the expiration dates based on status changes:
+    
+    - Reset both exp dates if created or came back from `Porzucone` to `W trakcie`
+    
+    - Add 'action days' to both exp dates when `Zakończone` status set
+    
+    - Do not modify if `Porzucone` or `Zakończone` status
+    
+    - In other cases: Add `action days` to expired_at depending on upper limit date
     """
 
     DM = date_modifier.DateModifier
